@@ -1,0 +1,52 @@
+---
+title: "r_data_types"
+author: "Shale"
+date: "8/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# practice
+
+```{r}
+vec1 = c(2, 5, 9, 10, 8, 12, 1, 0)
+class(vec1)
+vec1_e3 = vec1[3]
+vec1_e1 = vec1[1]
+vec1_e5to7 = vec1[5:7]
+length(vec1)
+vec1 = as.character(vec1)
+vec1
+```
+
+
+```{r}
+vec2 = c(town = "Santa Barbara", location = "Rincon", swell = "south")
+class(vec2)
+typeof(vec2)
+vec2[2]
+vec2["location"]
+length(vec2)
+
+vec2_e2 = vec2["location"]
+vec2_e2
+
+```
+
+
+
+```{r}
+df_1 = data.frame(region = c("A", "B", "A", "D"), species = c("otter", "great white", "sea lion", "gray whale"), count = c(12, 2, 36, 6))
+df_1
+class(df_1)
+class(df_1$species)
+max_count = max(df_1$count)
+```
+
+
+
+
+

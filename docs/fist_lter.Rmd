@@ -1,0 +1,74 @@
+---
+title: "LTER data"
+author: "Shale"
+date: "8/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+# Lezgo
+
+```{r}
+mack_verts = read.csv(here("data", "AS00601.csv"))
+
+mack_verts = mack_verts %>% clean_names()
+```
+
+```{r}
+summary(mack_verts)
+head(mack_verts)
+dim(mack_verts)
+mc_wt_5 = mack_verts$weight[5]
+mc_length_8_20 = mack_verts$length1[8:20]
+mc_dates = mack_verts$sampledate
+head(mc_dates)
+```
+
+
+# Salamanders
+
+```{r}
+mc_salamanders = mack_verts %>% filter(species == "DITE")
+```
+
+```{r}
+ggplot(data = mc_salamanders, aes(x = length1, y = weight)) +
+  geom_point(color = "red") +
+  labs(x = "Salamander Length (mm)", 
+       y = "Salamander Weight (g)", 
+       title = "Salamander Weight as a Function of Length", 
+       subtitle = "For Spp. Dicamptodon tenebrosus", 
+       caption = "Gregory, S.V. and I. Arismendi. 2020. Aquatic Vertebrate Population Study in Mack Creek, Andrews Experimental Forest, 1987 to present ver 14. Environmental Data Initiative. https://doi.org/10.6073/pasta/7c78d662e847cdbe33584add8f809165 (Accessed 2021-08-10).") +
+  theme_minimal()
+
+```
+
+# Trout
+
+```{r}
+mc_trout = mack_verts %>% filter(species == "ONCL")
+```
+
+```{r}
+ggplot(data = mc_trout, aes(x = length1, y = weight)) +
+  geom_point(aes(color = reach)) +
+  scale_color_manual(values = c("red", "blue", "white")) +
+  facet_wrap(~reach) +
+  theme_dark() +
+  labs(title = "Trout Weight as a Function of Length",
+       subtitle = "For Spp. Oncorhyncus clarkii subsp. clarkii",
+       x = "Trout Length (mm)",
+       y = "Trout Weight (g)",
+       caption = "Gregory, S.V. and I. Arismendi. 2020. Aquatic Vertebrate Population Study in Mack Creek, Andrews Experimental Forest, 1987 to present ver 14. Environmental Data Initiative. https://doi.org/10.6073/pasta/7c78d662e847cdbe33584add8f809165 (Accessed 2021-08-10).")
+
+ggsave(here("figs", "cutthroat_size.png"))
+```
+
+
+
